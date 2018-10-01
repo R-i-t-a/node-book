@@ -1,8 +1,13 @@
-var http = require("http"); // requires the http module that ships with Node.js and makes it accessible through the variable http
+var http = require("http");
+var url = require("url");
 
-function start() {
+function start(route) {
     function onRequest(request, response) {
-        console.log("request recieved");
+        var pathname = url.parse(request.url).pathname;
+        console.log("request for " + pathname + " recieved");
+
+        route(pathname);
+        
         response.writeHead(200, {"Content-Type": "text/plain"});
         response.write("Hello World");
         response.end();
